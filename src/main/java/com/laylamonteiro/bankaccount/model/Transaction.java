@@ -10,7 +10,7 @@ import java.util.Currency;
 public class Transaction {
 
     private Account account;
-    private Long transactionId;
+    private String transactionId;
     private BigDecimal amount;
     private Currency currency;
     private TransactionDirection direction;

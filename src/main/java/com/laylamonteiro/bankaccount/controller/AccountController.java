@@ -26,7 +26,7 @@ public class AccountController {
     @ResponseStatus(HttpStatus.OK)
     public List<TransactionDTO> getAllAccounts() {
         log.info("Received request to list all accounts.");
-        final List<Account> account = service.findAll();
+        final List<Account> accounts = service.findAll();
         return Collections.emptyList();
     }
 
@@ -34,7 +34,7 @@ public class AccountController {
     @ResponseStatus(HttpStatus.OK)
     public AccountDTO getAccountById(@PathVariable("id") final Long id) {
         log.info("Received request to list accountId '{}'.", id);
-        final Account account = service.findById(id);
+        final Account account = service.findByAccountId(id);
         return new AccountDTO(account);
     }
 
