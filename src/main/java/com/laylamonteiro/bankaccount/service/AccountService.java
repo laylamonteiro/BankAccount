@@ -3,13 +3,15 @@ package com.laylamonteiro.bankaccount.service;
 import com.laylamonteiro.bankaccount.dto.request.AccountForm;
 import com.laylamonteiro.bankaccount.enums.AvailableCurrencies;
 import com.laylamonteiro.bankaccount.model.Account;
+import com.laylamonteiro.bankaccount.repository.AccountRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.javassist.bytecode.DuplicateMemberException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
 import java.util.Currency;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 
 import static com.laylamonteiro.bankaccount.enums.AvailableCurrencies.findByValue;
 import static com.laylamonteiro.bankaccount.utils.RandomString.getAlphaNumericString;
@@ -18,39 +20,48 @@ import static com.laylamonteiro.bankaccount.utils.RandomString.getAlphaNumericSt
 @Service
 public class AccountService {
 
+    private final AccountRepository repository = new AccountRepository();
+
     public List<Account> findAll() {
         return null;
     }
 
     public Account findByAccountId(Long id) {
-        return null;
+        Account existingAccount = repository.findByCustomerId(id);
+        if (Objects.isNull(existingAccount)) {
+            String errorMessage = String.format("Account %s not found.", id);
+            log.error(errorMessage);
+            throw new NoSuchElementException(errorMessage);
+        } else {
+            return existingAccount;
+        }
     }
 
     public Account findByCustomerId(Long id) {
-        return null;
-    }
-
-    public void create(AccountForm form) throws DuplicateMemberException {
-        validateCurrencies(form.getCurrencies());
-        Account account = validateExistingAccount(form.getCustomerId());
-        account.setCustomerId(form.getCustomerId());
-        account.setAccountId(generateAccountId());
-        account.setCountry(form.getCountry());
-        account.setCurrencies(form.getCurrencies());
-        //repository.save(account)
-
-        log.info("Created account '{}'", account.getAccountId());
-    }
-
-    private Account validateExistingAccount(Long customerId) throws DuplicateMemberException {
-        Account existingAccount = findByCustomerId(customerId);
-        if (ObjectUtils.isEmpty(existingAccount)) {
+        Account existingAccount = repository.findByCustomerId(id);
+        if (Objects.isNull(existingAccount)) {
             return new Account();
         } else {
             String errorMessage = String.format("Account %s already registered.", existingAccount.getAccountId());
-            log.info(errorMessage);
-            throw new DuplicateMemberException(errorMessage);
+            log.error(errorMessage);
+            throw new DuplicateKeyException(errorMessage);
         }
+    }
+
+    public void save(Account account) {
+        //repository.save(account)
+    }
+
+    public void create(AccountForm form) {
+        validateCurrencies(form.getCurrencies());
+        Account account = findByCustomerId(form.getCustomerId());
+        account.setCustomerId(form.getCustomerId());
+        account.setAccountId(getAlphaNumericString());
+        account.setCountry(form.getCountry());
+        account.setCurrencies(form.getCurrencies());
+        save(account);
+
+        log.info("Created account '{}'", account.getAccountId());
     }
 
     private void validateCurrencies(List<Currency> incomingCurrencies) {
@@ -62,7 +73,4 @@ public class AccountService {
         });
     }
 
-    private String generateAccountId() {
-        return getAlphaNumericString();
-    }
 }

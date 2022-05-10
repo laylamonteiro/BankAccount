@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Currency;
 
@@ -13,10 +14,14 @@ import java.util.Currency;
 @NoArgsConstructor
 public class TransactionForm {
 
+    @NotNull(message = "AccountId is mandatory")
     private Long accountId;
+
     private BigDecimal amount;
     private Currency currency;
     private TransactionDirection direction;
+
+    @NotNull(message = "Description is mandatory")
     private String description;
 
 }

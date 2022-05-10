@@ -30,11 +30,11 @@ public class AccountController {
         return Collections.emptyList();
     }
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/{accountId}")
     @ResponseStatus(HttpStatus.OK)
-    public AccountDTO getAccountById(@PathVariable("id") final Long id) {
-        log.info("Received request to list accountId '{}'.", id);
-        final Account account = service.findByAccountId(id);
+    public AccountDTO getAccountById(@PathVariable("accountId") final Long accountId) {
+        log.info("Received request to list accountId '{}'.", accountId);
+        final Account account = service.findByAccountId(accountId);
         return new AccountDTO(account);
     }
 
