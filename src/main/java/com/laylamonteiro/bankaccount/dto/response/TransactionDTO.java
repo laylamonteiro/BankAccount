@@ -2,6 +2,7 @@ package com.laylamonteiro.bankaccount.dto.response;
 
 import com.laylamonteiro.bankaccount.model.Balance;
 import com.laylamonteiro.bankaccount.enums.TransactionDirection;
+import com.laylamonteiro.bankaccount.model.Transaction;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,7 @@ public class TransactionDTO {
     private String description;
     private Balance balance;
 
+    public TransactionDTO(Transaction transaction) {
+
+    }
 }
