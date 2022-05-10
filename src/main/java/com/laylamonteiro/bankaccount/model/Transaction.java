@@ -1,4 +1,4 @@
-package com.laylamonteiro.bankaccount.domain;
+package com.laylamonteiro.bankaccount.model;
 
 import com.laylamonteiro.bankaccount.enums.TransactionDirection;
 import lombok.Data;
@@ -9,12 +9,11 @@ import java.util.Currency;
 @Data
 public class Transaction {
 
-    private Long accountId;
+    private Account account;
     private Long transactionId;
     private BigDecimal amount;
     private Currency currency;
     private TransactionDirection direction;
     private String description;
-    private Balance balance;
 
 }

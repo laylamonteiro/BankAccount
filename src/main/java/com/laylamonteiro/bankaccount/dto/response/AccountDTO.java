@@ -1,6 +1,6 @@
 package com.laylamonteiro.bankaccount.dto.response;
 
-import com.laylamonteiro.bankaccount.domain.Balance;
+import com.laylamonteiro.bankaccount.model.Balance;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

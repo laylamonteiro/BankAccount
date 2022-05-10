@@ -1,4 +1,4 @@
-package com.laylamonteiro.bankaccount.domain;
+package com.laylamonteiro.bankaccount.model;
 
 import lombok.Data;
 
