@@ -1,10 +1,11 @@
 package com.laylamonteiro.bankaccount.service;
 
+import com.laylamonteiro.bankaccount.dao.AccountDAO;
 import com.laylamonteiro.bankaccount.dto.request.AccountForm;
 import com.laylamonteiro.bankaccount.enums.AvailableCurrencies;
 import com.laylamonteiro.bankaccount.model.Account;
-import com.laylamonteiro.bankaccount.repository.AccountRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +21,15 @@ import static com.laylamonteiro.bankaccount.utils.RandomString.getAlphaNumericSt
 @Service
 public class AccountService {
 
-    private final AccountRepository repository = new AccountRepository();
+    @Autowired
+    private AccountDAO dao;
 
     public List<Account> findAll() {
         return null;
     }
 
-    public Account findByAccountId(Long id) {
-        Account existingAccount = repository.findByCustomerId(id);
+    public Account findByAccountId(String id) {
+        Account existingAccount = dao.findByAccountId(id);
         if (Objects.isNull(existingAccount)) {
             String errorMessage = String.format("Account %s not found.", id);
             log.error(errorMessage);
@@ -38,7 +40,7 @@ public class AccountService {
     }
 
     public Account findByCustomerId(Long id) {
-        Account existingAccount = repository.findByCustomerId(id);
+        Account existingAccount = dao.findByCustomerId(id);
         if (Objects.isNull(existingAccount)) {
             return new Account();
         } else {

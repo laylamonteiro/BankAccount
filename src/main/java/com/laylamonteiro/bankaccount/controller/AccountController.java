@@ -32,7 +32,7 @@ public class AccountController {
 
     @GetMapping(path = "/{accountId}")
     @ResponseStatus(HttpStatus.OK)
-    public AccountDTO getAccountById(@PathVariable("accountId") final Long accountId) {
+    public AccountDTO getAccountById(@PathVariable("accountId") final String accountId) {
         log.info("Received request to list accountId '{}'.", accountId);
         final Account account = service.findByAccountId(accountId);
         return new AccountDTO(account);

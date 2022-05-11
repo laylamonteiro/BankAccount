@@ -1,0 +1,3 @@
+CREATE USER docker;
+CREATE DATABASE bankaccountdb;
+GRANT ALL PRIVILEGES ON DATABASE docker TO docker;

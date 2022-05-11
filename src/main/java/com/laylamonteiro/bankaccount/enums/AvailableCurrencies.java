@@ -14,7 +14,7 @@ public enum AvailableCurrencies {
 
     public static Boolean findByValue(String value) {
         for (AvailableCurrencies currency : values()) {
-            if (currency.getValue().equalsIgnoreCase(value)) {
+            if (currency.name().equalsIgnoreCase(value)) {
                 return true;
             }
         }
