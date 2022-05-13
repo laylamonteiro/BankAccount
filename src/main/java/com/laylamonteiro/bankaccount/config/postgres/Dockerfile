@@ -13,10 +13,6 @@ ENV PGDATA=/data
 
 RUN ["/usr/local/bin/docker-entrypoint.sh", "postgres"]
 
-#RUN docker image build . -t preloaded_db:latest
-#COPY init.sql /docker-entrypoint-initdb.d/
-
-# final build stage
 FROM postgres:latest
 
 COPY --from=dumper /data $PGDATA

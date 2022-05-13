@@ -2,7 +2,6 @@ package com.laylamonteiro.bankaccount.controller;
 
 import com.laylamonteiro.bankaccount.dto.request.AccountForm;
 import com.laylamonteiro.bankaccount.dto.response.AccountDTO;
-import com.laylamonteiro.bankaccount.dto.response.TransactionDTO;
 import com.laylamonteiro.bankaccount.entity.Account;
 import com.laylamonteiro.bankaccount.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -24,10 +22,9 @@ public class AccountController {
 
     @GetMapping(path = "/")
     @ResponseStatus(HttpStatus.OK)
-    public List<TransactionDTO> getAllAccounts() {
+    public List<Account> getAllAccounts() {
         log.info("Received request to list all accounts.");
-        final List<Account> accounts = service.findAll();
-        return Collections.emptyList();
+        return service.findAll();
     }
 
     @GetMapping(path = "/{accountId}")
