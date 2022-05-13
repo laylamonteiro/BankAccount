@@ -2,7 +2,6 @@ package com.laylamonteiro.bankaccount.controller;
 
 import com.laylamonteiro.bankaccount.dto.request.AccountForm;
 import com.laylamonteiro.bankaccount.dto.response.AccountDTO;
-import com.laylamonteiro.bankaccount.entity.Account;
 import com.laylamonteiro.bankaccount.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +30,7 @@ public class AccountController {
     @ResponseStatus(HttpStatus.OK)
     public AccountDTO getAccountById(@PathVariable("accountId") final String accountId) {
         log.info("Received request to list accountId '{}'.", accountId);
-        final Account account = service.findByAccountId(accountId);
-        return new AccountDTO(account);
+        return service.findByAccountId(accountId);
     }
 
     @PostMapping

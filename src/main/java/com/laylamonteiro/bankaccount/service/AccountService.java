@@ -1,10 +1,12 @@
 package com.laylamonteiro.bankaccount.service;
 
 import com.laylamonteiro.bankaccount.REMOVER.dao.AccountDAO;
+import com.laylamonteiro.bankaccount.REMOVER.dao.BalanceDAO;
 import com.laylamonteiro.bankaccount.dto.request.AccountForm;
 import com.laylamonteiro.bankaccount.dto.response.AccountDTO;
 import com.laylamonteiro.bankaccount.entity.Account;
-import com.laylamonteiro.bankaccount.enums.AvailableCurrencies;
+import com.laylamonteiro.bankaccount.entity.Balance;
+import com.laylamonteiro.bankaccount.enums.AvailableCurrency;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -12,42 +14,42 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-import static com.laylamonteiro.bankaccount.enums.AvailableCurrencies.findByValue;
+import static com.laylamonteiro.bankaccount.enums.AvailableCurrency.findByValue;
 
 @Slf4j
 @Service
 public class AccountService {
 
     @Autowired
-    private AccountDAO dao;
+    private AccountDAO accountDAO;
+
+    @Autowired
+    private BalanceDAO balanceDAO;
 
     public List<AccountDTO> findAll() {
-        List<Account> accounts = dao.findAll();
+        List<Account> accounts = accountDAO.findAll();
         List<AccountDTO> dtos = new ArrayList<>();
 
         accounts.forEach(account -> {
-            AccountDTO dto = new AccountDTO(
-                    account.getAccountId(),
-                    account.getCustomerId(),
-                    account.getBalances());
+            AccountDTO dto = toDTO(account);
             dtos.add(dto);
         });
         return dtos;
     }
 
-    public Account findByAccountId(String id) {
-        Account existingAccount = dao.findByAccountId(id);
+    public AccountDTO findByAccountId(String id) {
+        Account existingAccount = accountDAO.findByAccountId(id);
         if (Objects.isNull(existingAccount)) {
             String errorMessage = String.format("Account %s not found.", id);
             log.error(errorMessage);
             throw new NoSuchElementException(errorMessage);
         } else {
-            return existingAccount;
+            return toDTO(existingAccount);
         }
     }
 
-    public Account findByCustomerId(String id) {
-        Account existingAccount = dao.findByCustomerId(id);
+    public Account findByCustomerId(Long id) {
+        Account existingAccount = accountDAO.findByCustomerId(id);
         if (Objects.isNull(existingAccount)) {
             return new Account();
         } else {
@@ -57,30 +59,40 @@ public class AccountService {
         }
     }
 
-    public void save(Account account) {
-        dao.createAccount(account);
-    }
-
     public void create(AccountForm form) {
-        validateCurrencies(form.getCurrencies());
-//        Account account = findByCustomerId(form.getCustomerId());
-        Account account = new Account();
+        Account account = findByCustomerId(form.getCustomerId());
         account.setCustomerId(form.getCustomerId());
-        account.setAccountId(1L);
+        account.setAccountId(3L);
         account.setCountry(form.getCountry());
-        account.setCurrencies(form.getCurrencies());
-        save(account);
+        account.setBalances(1L);
+        account.setTransactions(1L);
+
+        createBalances(account.getAccountId(), form.getCurrencies());
+        accountDAO.createAccount(account);
 
         log.info("Created account '{}'", account.getAccountId());
     }
 
-    private void validateCurrencies(List<Currency> incomingCurrencies) {
+    private void createBalances(Long accountId, List<Currency> incomingCurrencies) {
         incomingCurrencies.forEach(currency -> {
-            Boolean currencyAllowed = findByValue(currency.toString());
+            String currencySymbol = currency.toString();
+            Boolean currencyAllowed = findByValue(currencySymbol);
             if (!currencyAllowed) {
-                throw new EnumConstantNotPresentException(AvailableCurrencies.class, currency.getSymbol());
+                throw new EnumConstantNotPresentException(AvailableCurrency.class, currency.getSymbol());
             }
+            Balance balance = new Balance();
+            balance.setAccountId(accountId);
+            balance.setCurrency(currency.toString());
+            balanceDAO.createBalance(balance);
         });
+    }
+
+    private AccountDTO toDTO(Account existingAccount) {
+        return new AccountDTO(
+                existingAccount.getAccountId(),
+                existingAccount.getCustomerId(),
+                Collections.singletonList(new Balance())
+        );
     }
 
 }

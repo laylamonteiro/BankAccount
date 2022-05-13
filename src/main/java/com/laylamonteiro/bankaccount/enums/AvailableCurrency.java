@@ -3,7 +3,7 @@ package com.laylamonteiro.bankaccount.enums;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public enum AvailableCurrencies {
+public enum AvailableCurrency {
 
     EUR,
     SEK,
@@ -13,7 +13,7 @@ public enum AvailableCurrencies {
     private String value;
 
     public static Boolean findByValue(String value) {
-        for (AvailableCurrencies currency : values()) {
+        for (AvailableCurrency currency : values()) {
             if (currency.name().equalsIgnoreCase(value)) {
                 return true;
             }

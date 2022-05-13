@@ -1,14 +1,15 @@
 -- SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = 'bankaccountdb';
 
 -- CREATE USER postgres;
---
+
 -- CREATE DATABASE bankaccountdb;
+
 ALTER USER postgres WITH PASSWORD 'postgres';
 
 CREATE TYPE currency AS ENUM ('EUR', 'SEK', 'GBP', 'USD');
 
 CREATE TABLE accounts (
-	accountId BIGINT NOT NULL,
+	accountId SERIAL,
 	customerId BIGINT NOT NULL,
 	country TEXT NOT NULL,
 	balances BIGINT NOT NULL,
