@@ -9,7 +9,7 @@ import java.util.List;
 public class Account {
 
     private Long accountId;
-    private String customerId;
+    private Long customerId;
     private String country;
     private List<Currency> currencies;
     private List<Balance> balances;

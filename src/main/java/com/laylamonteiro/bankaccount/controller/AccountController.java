@@ -22,7 +22,7 @@ public class AccountController {
 
     @GetMapping(path = "/")
     @ResponseStatus(HttpStatus.OK)
-    public List<Account> getAllAccounts() {
+    public List<AccountDTO> getAllAccounts() {
         log.info("Received request to list all accounts.");
         return service.findAll();
     }

@@ -2,6 +2,7 @@ package com.laylamonteiro.bankaccount.service;
 
 import com.laylamonteiro.bankaccount.REMOVER.dao.AccountDAO;
 import com.laylamonteiro.bankaccount.dto.request.AccountForm;
+import com.laylamonteiro.bankaccount.dto.response.AccountDTO;
 import com.laylamonteiro.bankaccount.entity.Account;
 import com.laylamonteiro.bankaccount.enums.AvailableCurrencies;
 import lombok.extern.slf4j.Slf4j;
@@ -9,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
-import java.util.Currency;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
 import static com.laylamonteiro.bankaccount.enums.AvailableCurrencies.findByValue;
 
@@ -23,8 +21,18 @@ public class AccountService {
     @Autowired
     private AccountDAO dao;
 
-    public List<Account> findAll() {
-        return dao.findAll();
+    public List<AccountDTO> findAll() {
+        List<Account> accounts = dao.findAll();
+        List<AccountDTO> dtos = new ArrayList<>();
+
+        accounts.forEach(account -> {
+            AccountDTO dto = new AccountDTO(
+                    account.getAccountId(),
+                    account.getCustomerId(),
+                    account.getBalances());
+            dtos.add(dto);
+        });
+        return dtos;
     }
 
     public Account findByAccountId(String id) {
