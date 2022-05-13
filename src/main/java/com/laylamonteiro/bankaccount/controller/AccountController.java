@@ -3,7 +3,7 @@ package com.laylamonteiro.bankaccount.controller;
 import com.laylamonteiro.bankaccount.dto.request.AccountForm;
 import com.laylamonteiro.bankaccount.dto.response.AccountDTO;
 import com.laylamonteiro.bankaccount.dto.response.TransactionDTO;
-import com.laylamonteiro.bankaccount.model.Account;
+import com.laylamonteiro.bankaccount.entity.Account;
 import com.laylamonteiro.bankaccount.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

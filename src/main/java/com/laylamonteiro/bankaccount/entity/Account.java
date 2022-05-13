@@ -1,4 +1,4 @@
-package com.laylamonteiro.bankaccount.model;
+package com.laylamonteiro.bankaccount.entity;
 
 import lombok.Data;
 
@@ -8,8 +8,8 @@ import java.util.List;
 @Data
 public class Account {
 
-    private Long customerId;
-    private String accountId;
+    private Long accountId;
+    private String customerId;
     private String country;
     private List<Currency> currencies;
     private List<Balance> balances;

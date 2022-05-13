@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class AccountForm {
 
-    private Long customerId;
+    private String customerId;
     private String country;
     private List<Currency> currencies;
 

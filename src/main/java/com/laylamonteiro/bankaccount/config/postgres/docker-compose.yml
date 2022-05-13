@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+ postgres:
+  image: postgres:latest
+  container_name: postgres
+  restart: always
+  environment:
+   - POSTGRES_USER=postgres
+   - POSTGRES_DB=bankaccountdb
+   - POSTGRES_PASSWORD=postgres
+   - PGDATA=/data
+  logging:
+   options:
+    max-size: 10m
+    max-file: "3"
+  ports:
+   - '5432:5432'
+  volumes:
+   # copy the sql script to create tables
+   - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+#  healthcheck:
+#   #CHANGE 1: this command checks if the database is ready, right on the source db server
+#   test: [ "CMD-SHELL", "pg_isready" ]
+#   interval: 5s
+#   timeout: 5s
+#   retries: 5
+# send_message:
+#  build: ../message_sender
+#  ports:
+#   - "8080:8080"
+#  depends_on:
+#   - rabbitmq
+#  network_mode: "host"
+# rabbitmq:
+#  image: rabbitmq:management
+#  ports:
+#   - "5672:5672"
+#   - "15672:15672"

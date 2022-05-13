@@ -1,7 +1,7 @@
 package com.laylamonteiro.bankaccount.service;
 
 import com.laylamonteiro.bankaccount.dto.request.TransactionForm;
-import com.laylamonteiro.bankaccount.model.Transaction;
+import com.laylamonteiro.bankaccount.entity.Transaction;
 import org.springframework.stereotype.Service;
 
 @Service

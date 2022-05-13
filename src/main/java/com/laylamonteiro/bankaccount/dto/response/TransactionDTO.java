@@ -1,8 +1,8 @@
 package com.laylamonteiro.bankaccount.dto.response;
 
-import com.laylamonteiro.bankaccount.model.Balance;
+import com.laylamonteiro.bankaccount.entity.Balance;
 import com.laylamonteiro.bankaccount.enums.TransactionDirection;
-import com.laylamonteiro.bankaccount.model.Transaction;
+import com.laylamonteiro.bankaccount.entity.Transaction;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

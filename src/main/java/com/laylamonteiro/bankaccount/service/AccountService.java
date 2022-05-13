@@ -1,9 +1,9 @@
 package com.laylamonteiro.bankaccount.service;
 
-import com.laylamonteiro.bankaccount.dao.AccountDAO;
+import com.laylamonteiro.bankaccount.REMOVER.dao.AccountDAO;
 import com.laylamonteiro.bankaccount.dto.request.AccountForm;
+import com.laylamonteiro.bankaccount.entity.Account;
 import com.laylamonteiro.bankaccount.enums.AvailableCurrencies;
-import com.laylamonteiro.bankaccount.model.Account;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -15,7 +15,6 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import static com.laylamonteiro.bankaccount.enums.AvailableCurrencies.findByValue;
-import static com.laylamonteiro.bankaccount.utils.RandomString.getAlphaNumericString;
 
 @Slf4j
 @Service
@@ -25,7 +24,7 @@ public class AccountService {
     private AccountDAO dao;
 
     public List<Account> findAll() {
-        return null;
+        return dao.findAll();
     }
 
     public Account findByAccountId(String id) {
@@ -39,7 +38,7 @@ public class AccountService {
         }
     }
 
-    public Account findByCustomerId(Long id) {
+    public Account findByCustomerId(String id) {
         Account existingAccount = dao.findByCustomerId(id);
         if (Objects.isNull(existingAccount)) {
             return new Account();
@@ -51,14 +50,15 @@ public class AccountService {
     }
 
     public void save(Account account) {
-        //repository.save(account)
+        dao.createAccount(account);
     }
 
     public void create(AccountForm form) {
         validateCurrencies(form.getCurrencies());
-        Account account = findByCustomerId(form.getCustomerId());
+//        Account account = findByCustomerId(form.getCustomerId());
+        Account account = new Account();
         account.setCustomerId(form.getCustomerId());
-        account.setAccountId(getAlphaNumericString());
+        account.setAccountId(1L);
         account.setCountry(form.getCountry());
         account.setCurrencies(form.getCurrencies());
         save(account);

@@ -2,7 +2,7 @@ package com.laylamonteiro.bankaccount.controller;
 
 import com.laylamonteiro.bankaccount.dto.request.TransactionForm;
 import com.laylamonteiro.bankaccount.dto.response.TransactionDTO;
-import com.laylamonteiro.bankaccount.model.Transaction;
+import com.laylamonteiro.bankaccount.entity.Transaction;
 import com.laylamonteiro.bankaccount.service.TransactionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

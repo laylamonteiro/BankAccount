@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="BankAccountApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="bank-account.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.laylamonteiro.bankaccount.BankAccountApplication" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <envs>
+      <env name="DOCKER_TLS_VERIFY" value="" />
+      <env name="DOCKER_CERT_PATH" value="" />
+    </envs>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
