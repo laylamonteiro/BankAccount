@@ -18,7 +18,7 @@ public class TransactionForm {
     private Long accountId;
 
     private BigDecimal amount;
-    private Currency currency;
+    private String currency;
     private TransactionDirection direction;
 
     @NotNull(message = "Description is mandatory")

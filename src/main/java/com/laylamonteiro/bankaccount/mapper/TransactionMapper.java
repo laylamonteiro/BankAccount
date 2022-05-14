@@ -1,19 +1,24 @@
 package com.laylamonteiro.bankaccount.mapper;
 
 import com.laylamonteiro.bankaccount.entity.Transaction;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 @Mapper
 public interface TransactionMapper {
 
-    @Select("SELECT * FROM TRANSACTION WHERE transactionId = #{transactionId}")
+    @Select("SELECT * FROM transactions")
+    List<Transaction> findAllTransactions();
+
+    @Select("SELECT * FROM transactions WHERE accountId = #{accountId}")
+    List<Transaction> findTransactionsByAccountId(@Param("accountId") String accountId);
+
+    @Select("SELECT * FROM transactions WHERE transactionId = #{transactionId}")
     Transaction findTransactionByTransactionId(@Param("transactionId") String transactionId);
 
-    @Select("SELECT * FROM TRANSACTION WHERE customerId = #{customerId}")
-    List<Transaction> findTransactionByCustomerId(@Param("customerId") String customerId);
-
+    @Insert("INSERT INTO transactions (accountId, amount, currency, direction, description) " +
+            "VALUES (${accountId}, '${amount}', '${currency}', '${direction}', '${description}')")
+    @Options(useGeneratedKeys = true, keyProperty = "transactionId")
+    void createTransaction(Transaction transaction);
 }

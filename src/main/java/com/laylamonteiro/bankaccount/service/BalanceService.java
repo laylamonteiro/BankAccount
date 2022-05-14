@@ -2,13 +2,13 @@ package com.laylamonteiro.bankaccount.service;
 
 import com.laylamonteiro.bankaccount.dao.BalanceDAO;
 import com.laylamonteiro.bankaccount.entity.Balance;
-import lombok.extern.slf4j.Slf4j;
+import com.laylamonteiro.bankaccount.entity.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Currency;
 import java.util.List;
 
 import static com.laylamonteiro.bankaccount.enums.AvailableCurrency.findByValue;
@@ -25,27 +25,24 @@ public class BalanceService {
     }
 
     public List<Balance> findBalancesByAccountId(Long id) {
-        List<Balance> existingBalances = balanceDAO.findBalancesByAccountId(id);
-
-        if (existingBalances.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        return existingBalances;
+        return balanceDAO.findBalancesByAccountId(id);
     }
 
+    public List<Balance> findBalancesByAccountIdAndCurrency(Transaction transaction) {
+        return balanceDAO.findBalancesByAccountIdAndCurrency(transaction);
+    }
 
-    public List<Balance> createBalances(Long accountId, List<Currency> incomingCurrencies) {
+    public List<Balance> createBalances(Long accountId, List<String> incomingCurrencies) {
         List<Balance> balances = new ArrayList<>();
 
         incomingCurrencies.forEach(currency -> {
-            String currencySymbol = currency.toString();
-            Boolean currencyAllowed = findByValue(currencySymbol);
+            Boolean currencyAllowed = findByValue(currency.toString());
 
             if (currencyAllowed) {
                 Balance balance = new Balance();
                 balance.setAccountId(accountId);
-                balance.setCurrency(currency.toString());
+                balance.setAvailableAmount(BigDecimal.valueOf(0));
+                balance.setCurrency(currency);
                 balances.add(balance);
                 balanceDAO.createBalance(balance);
             } else {
@@ -54,5 +51,9 @@ public class BalanceService {
         });
 
         return balances;
+    }
+
+    public void updateBalance(Balance balance) {
+        balanceDAO.updateBalance(balance);
     }
 }
