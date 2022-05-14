@@ -1,4 +1,4 @@
-package com.laylamonteiro.bankaccount.REMOVER.dao;
+package com.laylamonteiro.bankaccount.dao;
 
 import com.laylamonteiro.bankaccount.entity.Account;
 import org.apache.ibatis.session.SqlSession;
@@ -15,19 +15,19 @@ public class AccountDAO {
         this.sqlSession = sqlSession;
     }
 
-    public Account findByCustomerId(Long id) {
-        return this.sqlSession.selectOne("findAccountByCustomerId", id);
+    public List<Account> findAll() {
+        return this.sqlSession.selectList("findAllAccounts");
     }
 
-    public Account findByAccountId(String id) {
+    public List<Account> findByCustomerId(Long id) {
+        return this.sqlSession.selectList("findAccountsByCustomerId", id);
+    }
+
+    public Account findByAccountId(Long id) {
         return this.sqlSession.selectOne("findAccountByAccountId", id);
     }
 
     public void createAccount(Account account) {
         this.sqlSession.insert("createAccount", account);
-    }
-
-    public List<Account> findAll() {
-        return this.sqlSession.selectList("findAllAccounts");
     }
 }

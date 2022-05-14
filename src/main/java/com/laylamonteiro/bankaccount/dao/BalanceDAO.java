@@ -1,4 +1,4 @@
-package com.laylamonteiro.bankaccount.REMOVER.dao;
+package com.laylamonteiro.bankaccount.dao;
 
 import com.laylamonteiro.bankaccount.entity.Balance;
 import org.apache.ibatis.session.SqlSession;
@@ -19,7 +19,7 @@ public class BalanceDAO {
         return this.sqlSession.selectList("findAllBalances");
     }
 
-    public List<Balance> findBalancesByAccountId(String id) {
+    public List<Balance> findBalancesByAccountId(Long id) {
         return this.sqlSession.selectList("findBalancesByAccountId", id);
     }
 

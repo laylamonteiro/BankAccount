@@ -1,4 +1,4 @@
-package com.laylamonteiro.bankaccount.REMOVER.mapper;
+package com.laylamonteiro.bankaccount.mapper;
 
 import com.laylamonteiro.bankaccount.entity.Balance;
 import org.apache.ibatis.annotations.Insert;
@@ -13,7 +13,7 @@ public interface BalanceMapper {
     List<Balance> findAllBalances();
 
     @Select("SELECT * FROM balances WHERE accountId = ${accountId}")
-    Balance findBalanceByAccountId(@Param("accountId") String accountId);
+    Balance findBalancesByAccountId(@Param("accountId") String accountId);
 
     @Select("SELECT * FROM balances WHERE customerId = ${customerId}")
     Balance findBalanceByCurrencyAndAccountId(@Param("customerId") Long customerId);

@@ -1,4 +1,4 @@
-package com.laylamonteiro.bankaccount.REMOVER.mapper;
+package com.laylamonteiro.bankaccount.mapper;
 
 import com.laylamonteiro.bankaccount.entity.Account;
 import org.apache.ibatis.annotations.*;
@@ -15,7 +15,7 @@ public interface AccountMapper {
     Account findAccountByAccountId(@Param("accountId") String accountId);
 
     @Select("SELECT * FROM accounts WHERE customerId = ${customerId}")
-    Account findAccountByCustomerId(@Param("customerId") Long customerId);
+    Account findAccountsByCustomerId(@Param("customerId") Long customerId);
 
 
 //    @Results(value = {
@@ -23,8 +23,8 @@ public interface AccountMapper {
 //            @Result(property = "balances", column = "balances", typeHandler = ArrayTypeHandler.class),
 //            @Result(property = "transactions", column = "transactions", typeHandler = ArrayTypeHandler.class)
 //    })
-    @Insert("INSERT INTO accounts (customerId, accountId, country, balances, transactions) " +
-            "VALUES (${customerId}, '${accountId}', '${country}', '${balances}', '${transactions}')")
+    @Insert("INSERT INTO accounts (customerId, country) " +
+            "VALUES (${customerId}, '${country}')")
     @Options(useGeneratedKeys=true, keyProperty="accountId")
     void createAccount(Account account);
 }

@@ -8,7 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @MappedTypes({Account.class, Transaction.class})
-@MapperScan("com.laylamonteiro.bankaccount.REMOVER.mapper")
+@MapperScan("com.laylamonteiro.bankaccount.mapper")
 @SpringBootApplication
 public class BankAccountApplication {
 

@@ -1,4 +1,4 @@
-package com.laylamonteiro.bankaccount.REMOVER.dao;
+package com.laylamonteiro.bankaccount.dao;
 
 import org.springframework.stereotype.Component;
 

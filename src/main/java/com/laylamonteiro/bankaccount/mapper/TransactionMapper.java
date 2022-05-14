@@ -1,4 +1,4 @@
-package com.laylamonteiro.bankaccount.REMOVER.mapper;
+package com.laylamonteiro.bankaccount.mapper;
 
 import com.laylamonteiro.bankaccount.entity.Transaction;
 import org.apache.ibatis.annotations.Mapper;

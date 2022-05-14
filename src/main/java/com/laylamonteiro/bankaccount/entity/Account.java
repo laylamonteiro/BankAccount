@@ -8,7 +8,5 @@ public class Account {
     private Long accountId;
     private Long customerId;
     private String country;
-    private Long balances;
-    private Long transactions;
 
 }
