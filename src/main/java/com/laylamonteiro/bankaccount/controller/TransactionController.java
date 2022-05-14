@@ -1,6 +1,7 @@
 package com.laylamonteiro.bankaccount.controller;
 
 import com.laylamonteiro.bankaccount.dto.request.TransactionForm;
+import com.laylamonteiro.bankaccount.dto.response.CreateTransactionDTO;
 import com.laylamonteiro.bankaccount.dto.response.TransactionDTO;
 import com.laylamonteiro.bankaccount.service.TransactionService;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +37,7 @@ public class TransactionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TransactionDTO createTransaction(@Valid @RequestBody final TransactionForm form) throws NotFoundException {
+    public CreateTransactionDTO createTransaction(@Valid @RequestBody final TransactionForm form) throws NotFoundException {
         log.info("Received request to create transaction. Payload '{}'", form);
         return service.create(form);
     }

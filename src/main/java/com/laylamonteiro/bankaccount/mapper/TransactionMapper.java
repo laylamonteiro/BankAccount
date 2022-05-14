@@ -11,10 +11,10 @@ public interface TransactionMapper {
     @Select("SELECT * FROM transactions")
     List<Transaction> findAllTransactions();
 
-    @Select("SELECT * FROM transactions WHERE accountId = #{accountId}")
+    @Select("SELECT * FROM transactions WHERE accountId = '${accountId}'")
     List<Transaction> findTransactionsByAccountId(@Param("accountId") String accountId);
 
-    @Select("SELECT * FROM transactions WHERE transactionId = #{transactionId}")
+    @Select("SELECT * FROM transactions WHERE transactionId = '${transactionId}'")
     Transaction findTransactionByTransactionId(@Param("transactionId") String transactionId);
 
     @Insert("INSERT INTO transactions (accountId, amount, currency, direction, description) " +

@@ -2,17 +2,20 @@ package com.laylamonteiro.bankaccount.service;
 
 import com.laylamonteiro.bankaccount.dao.TransactionDAO;
 import com.laylamonteiro.bankaccount.dto.request.TransactionForm;
+import com.laylamonteiro.bankaccount.dto.response.CreateTransactionDTO;
 import com.laylamonteiro.bankaccount.dto.response.TransactionDTO;
 import com.laylamonteiro.bankaccount.entity.Balance;
 import com.laylamonteiro.bankaccount.entity.Transaction;
 import com.laylamonteiro.bankaccount.enums.TransactionDirection;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static com.laylamonteiro.bankaccount.enums.AvailableCurrency.findByValue;
 
@@ -32,24 +35,19 @@ public class TransactionService {
         return toDTO(transactions);
     }
 
-    public Transaction findById(Long id) {
-        return transactionDAO.findByTransactionId(id);
-    }
-
     public List<TransactionDTO> findAllByAccountId(Long accountId) {
         List<Transaction> existingTransactions = transactionDAO.findAllByAccountId(accountId);
 
-        if (Objects.isNull(existingTransactions)) {
+        if (existingTransactions.isEmpty()) {
             return Collections.emptyList();
         }
 
-        log.debug("Found '{}' transactions for accountId '{}'.",
-                existingTransactions.size(), accountId);
+        log.debug("Found '{}' transactions for accountId '{}'.", existingTransactions.size(), accountId);
 
         return toDTO(existingTransactions);
     }
 
-    public TransactionDTO create(TransactionForm form) throws NotFoundException {
+    public CreateTransactionDTO create(TransactionForm form) throws NotFoundException {
         Transaction transaction = new Transaction();
         transaction.setAccountId(form.getAccountId());
         transaction.setAmount(form.getAmount());
@@ -106,8 +104,8 @@ public class TransactionService {
                 balance.getCurrency().equals(transaction.getCurrency())).findFirst().orElse(null);
     }
 
-    private TransactionDTO toDTO(Transaction transaction) {
-        return new TransactionDTO(
+    private CreateTransactionDTO toDTO(Transaction transaction) {
+        return new CreateTransactionDTO(
                 transaction.getAccountId(),
                 transaction.getTransactionId(),
                 transaction.getAmount(),
@@ -120,7 +118,18 @@ public class TransactionService {
 
     private List<TransactionDTO> toDTO(List<Transaction> transactions) {
         List<TransactionDTO> dtos = new ArrayList<>();
-        transactions.forEach(transaction -> dtos.add(toDTO(transaction)));
+
+        for (Transaction transaction : transactions) {
+            TransactionDTO dto = new TransactionDTO(
+                    transaction.getAccountId(),
+                    transaction.getTransactionId(),
+                    transaction.getAmount(),
+                    transaction.getCurrency(),
+                    transaction.getDirection(),
+                    transaction.getDescription()
+            );
+            dtos.add(dto);
+        }
         return dtos;
     }
 

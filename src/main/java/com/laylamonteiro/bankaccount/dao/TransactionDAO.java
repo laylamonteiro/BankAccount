@@ -19,8 +19,8 @@ public class TransactionDAO {
         return this.sqlSession.selectList("findAllTransactions");
     }
 
-    public List<Transaction> findAllByAccountId(Long accountId) {
-        return this.sqlSession.selectList("findTransactionsByAccountId");
+    public List<Transaction> findAllByAccountId(Long id) {
+        return this.sqlSession.selectList("findTransactionsByAccountId", id);
     }
 
     public Transaction findByTransactionId(Long id) {
