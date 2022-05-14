@@ -16,9 +16,6 @@ public interface BalanceMapper {
     @Select("SELECT * FROM balances WHERE accountId = ${accountId}")
     Balance findBalancesByAccountId(@Param("accountId") String accountId);
 
-    @Select("SELECT * FROM balances WHERE accountId = '${accountId}' AND currency = '${currency}'")
-    Balance findBalancesByAccountIdAndCurrency(@Param("accountId") String accountId);
-
     @Insert("INSERT INTO balances (accountId, availableAmount, currency) " +
             "VALUES (${accountId}, '${availableAmount}', '${currency}')")
     void createBalance(Balance balance);

@@ -19,10 +19,6 @@ public class AccountDAO {
         return this.sqlSession.selectList("findAllAccounts");
     }
 
-    public List<Account> findByCustomerId(Long id) {
-        return this.sqlSession.selectList("findAccountsByCustomerId", id);
-    }
-
     public Account findByAccountId(Long id) {
         return this.sqlSession.selectOne("findAccountByAccountId", id);
     }

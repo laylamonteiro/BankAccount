@@ -1,7 +1,6 @@
 package com.laylamonteiro.bankaccount.dao;
 
 import com.laylamonteiro.bankaccount.entity.Balance;
-import com.laylamonteiro.bankaccount.entity.Transaction;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Component;
 
@@ -16,16 +15,8 @@ public class BalanceDAO {
         this.sqlSession = sqlSession;
     }
 
-    public List<Balance> findAll() {
-        return this.sqlSession.selectList("findAllBalances");
-    }
-
     public List<Balance> findBalancesByAccountId(Long id) {
         return this.sqlSession.selectList("findBalancesByAccountId", id);
-    }
-
-    public List<Balance> findBalancesByAccountIdAndCurrency(Transaction transaction) {
-        return this.sqlSession.selectList("findBalancesByAccountIdAndCurrency", transaction);
     }
 
     public void createBalance(Balance Balance) {

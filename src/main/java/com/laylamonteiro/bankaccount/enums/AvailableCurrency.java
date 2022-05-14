@@ -10,8 +10,6 @@ public enum AvailableCurrency {
     GBP,
     USD;
 
-    private String value;
-
     public static Boolean findByValue(String value) {
         for (AvailableCurrency currency : values()) {
             if (currency.name().equalsIgnoreCase(value)) {
@@ -19,9 +17,5 @@ public enum AvailableCurrency {
             }
         }
         return false;
-    }
-
-    private String getValue() {
-        return this.value;
     }
 }

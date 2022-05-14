@@ -23,10 +23,6 @@ public class TransactionDAO {
         return this.sqlSession.selectList("findTransactionsByAccountId", id);
     }
 
-    public Transaction findByTransactionId(Long id) {
-        return this.sqlSession.selectOne("findTransactionByTransactionId", id);
-    }
-
     public void createTransaction(Transaction transaction) {
         this.sqlSession.insert("createTransaction", transaction);
     }

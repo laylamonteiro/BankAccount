@@ -34,7 +34,7 @@ public class AccountController {
 
     @GetMapping(path = "/{accountId}")
     @ResponseStatus(HttpStatus.OK)
-    public AccountDTO getAccountById(@PathVariable("accountId") final Long accountId) throws NotFoundException, JsonProcessingException {
+    public AccountDTO getAccountById(@PathVariable("accountId") final Long accountId) throws NotFoundException {
         log.info("Received request to list accountId '{}'.", accountId);
         return service.findByAccountId(accountId);
     }
