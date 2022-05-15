@@ -1,4 +1,5 @@
 # sudo service docker stop
+# systemctl restart docker
 # docker-compose up -d
 # docker-compose down -v
 # docker rm -f $(docker ps -a -q)

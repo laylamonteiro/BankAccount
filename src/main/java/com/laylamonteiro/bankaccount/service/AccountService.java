@@ -17,22 +17,18 @@ import java.util.Objects;
 @Service
 public class AccountService {
 
-    @Autowired
-    private AccountDAO accountDAO;
+    private final AccountDAO accountDAO;
+    private final BalanceService balanceService;
 
     @Autowired
-    private BalanceService balanceService;
+    public AccountService(AccountDAO accountDAO, BalanceService balanceService) {
+        this.accountDAO = accountDAO;
+        this.balanceService = balanceService;
+    }
 
     public List<AccountDTO> findAll() {
         List<Account> accounts = accountDAO.findAll();
-        List<AccountDTO> dtos = new ArrayList<>();
-
-        accounts.forEach(account -> {
-            AccountDTO dto = toDTO(account);
-            dtos.add(dto);
-        });
-
-        return dtos;
+        return toDTO(accounts);
     }
 
     public AccountDTO findByAccountId(Long id) throws NotFoundException {
@@ -68,6 +64,12 @@ public class AccountService {
                 existingAccount.getCustomerId(),
                 balanceService.findBalancesByAccountId(existingAccount.getAccountId())
         );
+    }
+
+    private List<AccountDTO> toDTO(List<Account> accounts) {
+        List<AccountDTO> dtos = new ArrayList<>();
+        accounts.forEach(account -> dtos.add(toDTO(account)));
+        return dtos;
     }
 
 }

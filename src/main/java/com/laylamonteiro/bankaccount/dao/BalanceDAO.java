@@ -26,4 +26,8 @@ public class BalanceDAO {
     public void createBalance(Balance Balance) {
         this.sqlSession.insert("createBalance", Balance);
     }
+
+    public void updateBalance(Balance balance) {
+        this.sqlSession.update("updateBalance", balance);
+    }
 }

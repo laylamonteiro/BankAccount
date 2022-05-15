@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="postgres: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" server-name="Docker">
+  <configuration default="false" name="container: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" server-name="Docker">
     <deployment type="docker-compose.yml">
       <settings>
         <option name="envVars">
@@ -16,7 +16,7 @@
         </option>
         <option name="removeVolumesOnComposeDown" value="true" />
         <option name="commandLineOptions" value="--build" />
-        <option name="sourceFilePath" value="src/main/java/com/laylamonteiro/bankaccount/config/postgres/docker-compose.yml" />
+        <option name="sourceFilePath" value="src/main/java/com/laylamonteiro/bankaccount/config/container/docker-compose.yml" />
       </settings>
     </deployment>
     <method v="2" />

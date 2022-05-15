@@ -1,7 +1,5 @@
 ALTER USER postgres WITH PASSWORD 'postgres';
 
-CREATE TYPE currency AS ENUM ('EUR', 'SEK', 'GBP', 'USD');
-
 CREATE TABLE accounts (
 	accountId SERIAL,
 	customerId BIGINT NOT NULL,
@@ -13,7 +11,7 @@ CREATE TABLE accounts (
 CREATE TABLE balances (
     accountId BIGINT NOT NULL,
     availableAmount DECIMAL NOT NULL,
-    currency currency NOT NULL,
+    currency VARCHAR(3) NOT NULL,
     CONSTRAINT fk_account
         FOREIGN KEY(accountId)
             REFERENCES accounts(accountId)
@@ -23,9 +21,9 @@ CREATE TABLE transactions (
 	transactionId SERIAL,
 	accountId BIGINT NOT NULL,
 	amount DECIMAL NOT NULL,
-	currency currency NOT NULL,
+	currency VARCHAR(3) NOT NULL,
 	direction VARCHAR(3) NOT NULL,
-	description TEXT,
+	description TEXT NOT NULL,
 	PRIMARY KEY (transactionId),
     CONSTRAINT fk_account
         FOREIGN KEY(accountId)

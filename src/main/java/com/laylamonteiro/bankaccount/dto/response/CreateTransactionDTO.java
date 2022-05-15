@@ -1,26 +1,25 @@
-package com.laylamonteiro.bankaccount.dto.request;
+package com.laylamonteiro.bankaccount.dto.response;
 
+import com.laylamonteiro.bankaccount.entity.Balance;
 import com.laylamonteiro.bankaccount.enums.TransactionDirection;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TransactionForm {
+public class CreateTransactionDTO {
 
-    @NotNull(message = "AccountId is mandatory")
     private Long accountId;
-
+    private Long transactionId;
     private BigDecimal amount;
     private String currency;
     private TransactionDirection direction;
-
-    @NotNull(message = "Description is mandatory")
     private String description;
+    private List<Balance> balance;
 
 }

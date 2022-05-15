@@ -1,7 +1,9 @@
 package com.laylamonteiro.bankaccount.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.laylamonteiro.bankaccount.dto.request.AccountForm;
 import com.laylamonteiro.bankaccount.dto.response.AccountDTO;
+import com.laylamonteiro.bankaccount.messaging.MessagePublisher;
 import com.laylamonteiro.bankaccount.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.javassist.NotFoundException;
@@ -20,6 +22,9 @@ public class AccountController {
     @Autowired
     private AccountService service;
 
+    @Autowired
+    private MessagePublisher publisher;
+
     @GetMapping(path = "/")
     @ResponseStatus(HttpStatus.OK)
     public List<AccountDTO> getAllAccounts() {
@@ -36,8 +41,10 @@ public class AccountController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AccountDTO createAccount(@Valid @RequestBody final AccountForm form) {
+    public AccountDTO createAccount(@Valid @RequestBody final AccountForm form) throws JsonProcessingException {
         log.info("Received request to create account. Payload '{}'", form);
-        return service.create(form);
+        AccountDTO account = service.create(form);
+        publisher.publish(account);
+        return account;
     }
 }
