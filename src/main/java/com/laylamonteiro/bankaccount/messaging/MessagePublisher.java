@@ -22,12 +22,12 @@ public class MessagePublisher {
     private Source source;
 
     public void publish(AccountDTO createdAccount) throws JsonProcessingException {
-        boolean sent = source.output().send(MessageBuilder.withPayload(createdAccount).setHeader("", "").build());
+        boolean sent = source.output().send(MessageBuilder.withPayload(createdAccount).build());
         validate(sent, createdAccount, "New account");
     }
 
     public void publish(CreateTransactionDTO createdTransaction) throws JsonProcessingException {
-        boolean sent = source.output().send(MessageBuilder.withPayload(createdTransaction).setHeader("", "").build());
+        boolean sent = source.output().send(MessageBuilder.withPayload(createdTransaction).build());
         validate(sent, createdTransaction, "New transaction");
     }
 

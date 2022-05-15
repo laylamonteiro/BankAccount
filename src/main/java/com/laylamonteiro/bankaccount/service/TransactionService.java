@@ -8,7 +8,6 @@ import com.laylamonteiro.bankaccount.entity.Balance;
 import com.laylamonteiro.bankaccount.entity.Transaction;
 import com.laylamonteiro.bankaccount.enums.TransactionDirection;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import static com.laylamonteiro.bankaccount.enums.AvailableCurrency.findByValue;
 
@@ -47,7 +47,7 @@ public class TransactionService {
         return toDTO(existingTransactions);
     }
 
-    public CreateTransactionDTO create(TransactionForm form) throws NotFoundException {
+    public CreateTransactionDTO create(TransactionForm form) {
         Transaction transaction = new Transaction();
         transaction.setAccountId(form.getAccountId());
         transaction.setAmount(form.getAmount());
@@ -59,8 +59,8 @@ public class TransactionService {
         Balance balance = getBalanceByAccountIdAndCurrency(transaction);
 
         if (balance == null) {
-            balanceService.createBalances(transaction.getAccountId(), Collections.singletonList(transaction.getCurrency()));
-            balance = getBalanceByAccountIdAndCurrency(transaction);
+            List<Balance> balances = balanceService.createBalances(transaction.getAccountId(), Collections.singletonList(transaction.getCurrency()));
+            balance = balances.get(0);
         }
 
         if (form.getDirection().equals(TransactionDirection.IN)) {
@@ -89,8 +89,12 @@ public class TransactionService {
 
     private Boolean insufficientFunds(Transaction transaction) {
         if (transaction.getDirection().equals(TransactionDirection.OUT)) {
+            BigDecimal availableAmount = BigDecimal.ZERO;
             Balance balanceByCurrency = getBalanceByAccountIdAndCurrency(transaction);
-            BigDecimal availableAmount = balanceByCurrency.getAvailableAmount();
+
+            if (Objects.nonNull(balanceByCurrency))
+                availableAmount = balanceByCurrency.getAvailableAmount();
+
             BigDecimal transactionAmount = transaction.getAmount();
             return (availableAmount.compareTo(transactionAmount) < 0);
         } else {
@@ -100,8 +104,11 @@ public class TransactionService {
 
     private Balance getBalanceByAccountIdAndCurrency(Transaction transaction) {
         List<Balance> balancesByAccountId = balanceService.findBalancesByAccountId(transaction.getAccountId());
-        return balancesByAccountId.stream().filter(balance ->
-                balance.getCurrency().equals(transaction.getCurrency())).findFirst().orElse(null);
+        if (Objects.nonNull(balancesByAccountId)) {
+            return balancesByAccountId.stream().filter(balance ->
+                    balance.getCurrency().equals(transaction.getCurrency())).findFirst().orElse(null);
+        }
+        return null;
     }
 
     private CreateTransactionDTO toDTO(Transaction transaction) {

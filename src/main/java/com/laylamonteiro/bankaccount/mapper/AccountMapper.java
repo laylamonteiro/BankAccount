@@ -12,7 +12,7 @@ public interface AccountMapper {
     List<Account> findAllAccounts();
 
     @Select("SELECT * FROM accounts WHERE accountId = ${accountId}")
-    Account findAccountByAccountId(@Param("accountId") String accountId);
+    Account findAccountByAccountId(@Param("accountId") Long accountId);
 
     @Insert("INSERT INTO accounts (customerId, country) " +
             "VALUES (${customerId}, '${country}')")

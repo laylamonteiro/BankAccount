@@ -17,11 +17,14 @@ import java.util.Objects;
 @Service
 public class AccountService {
 
-    @Autowired
-    private AccountDAO accountDAO;
+    private final AccountDAO accountDAO;
+    private final BalanceService balanceService;
 
     @Autowired
-    private BalanceService balanceService;
+    public AccountService(AccountDAO accountDAO, BalanceService balanceService) {
+        this.accountDAO = accountDAO;
+        this.balanceService = balanceService;
+    }
 
     public List<AccountDTO> findAll() {
         List<Account> accounts = accountDAO.findAll();

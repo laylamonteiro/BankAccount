@@ -15,6 +15,10 @@ public class BalanceDAO {
         this.sqlSession = sqlSession;
     }
 
+    public List<Balance> findAll() {
+        return this.sqlSession.selectList("findAllBalances");
+    }
+
     public List<Balance> findBalancesByAccountId(Long id) {
         return this.sqlSession.selectList("findBalancesByAccountId", id);
     }

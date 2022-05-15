@@ -12,7 +12,7 @@ public interface TransactionMapper {
     List<Transaction> findAllTransactions();
 
     @Select("SELECT * FROM transactions WHERE accountId = '${accountId}'")
-    List<Transaction> findTransactionsByAccountId(@Param("accountId") String accountId);
+    List<Transaction> findTransactionsByAccountId(@Param("accountId") Long accountId);
 
     @Insert("INSERT INTO transactions (accountId, amount, currency, direction, description) " +
             "VALUES (${accountId}, '${amount}', '${currency}', '${direction}', '${description}')")
