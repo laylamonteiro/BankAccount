@@ -1,7 +1,6 @@
 package com.laylamonteiro.bankaccount.dto.response;
 
 import com.laylamonteiro.bankaccount.entity.Balance;
-import com.laylamonteiro.bankaccount.enums.TransactionDirection;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,7 @@ public class CreateTransactionDTO {
     private Long transactionId;
     private BigDecimal amount;
     private String currency;
-    private TransactionDirection direction;
+    private String direction;
     private String description;
     private List<Balance> balance;
 

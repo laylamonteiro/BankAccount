@@ -1,6 +1,5 @@
 package com.laylamonteiro.bankaccount.dto.request;
 
-import com.laylamonteiro.bankaccount.enums.TransactionDirection;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,7 @@ public class TransactionForm {
 
     private BigDecimal amount;
     private String currency;
-    private TransactionDirection direction;
+    private String direction;
 
     @NotNull(message = "Description is mandatory")
     private String description;
