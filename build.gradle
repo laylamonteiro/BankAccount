@@ -67,7 +67,8 @@ jacocoTestReport {
             fileTree(dir: it,
                     exclude: [
                             'com/laylamonteiro/bankaccount/dto/**',
-                            'com/laylamonteiro/bankaccount/enums/**'
+                            'com/laylamonteiro/bankaccount/enums/**',
+                            'com/laylamonteiro/bankaccount/BankAccountApplication*'
                     ]
             )
         }))
