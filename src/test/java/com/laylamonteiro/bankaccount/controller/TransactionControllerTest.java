@@ -6,7 +6,6 @@ import com.laylamonteiro.bankaccount.dto.response.CreateTransactionDTO;
 import com.laylamonteiro.bankaccount.dto.response.TransactionDTO;
 import com.laylamonteiro.bankaccount.entity.Balance;
 import com.laylamonteiro.bankaccount.entity.Transaction;
-import com.laylamonteiro.bankaccount.enums.TransactionDirection;
 import com.laylamonteiro.bankaccount.mapper.AccountMapper;
 import com.laylamonteiro.bankaccount.mapper.BalanceMapper;
 import com.laylamonteiro.bankaccount.mapper.TransactionMapper;
@@ -78,8 +77,8 @@ class TransactionControllerTest {
 
     @Test
     void getAllTransactionsByAccountId() throws Exception {
-        Transaction transaction = new Transaction(1L, 1L, BigDecimal.ZERO, "EUR", TransactionDirection.IN, "Test");
-        TransactionDTO transactionDTO = new TransactionDTO(1L, 1L, BigDecimal.ZERO, "EUR", TransactionDirection.IN, "Test");
+        Transaction transaction = new Transaction(1L, 1L, BigDecimal.ZERO, "EUR", "IN", "Test");
+        TransactionDTO transactionDTO = new TransactionDTO(1L, 1L, BigDecimal.ZERO, "EUR", "IN", "Test");
 
         when(transactionMapper.findTransactionsByAccountId(1L))
                 .thenReturn(Collections.singletonList(transaction));
@@ -94,8 +93,8 @@ class TransactionControllerTest {
 
     @Test
     void createTransaction() throws Exception {
-        CreateTransactionDTO createTransactionDTO = new CreateTransactionDTO(1L, 1L, BigDecimal.ZERO, "EUR", TransactionDirection.IN, "Test", List.of(new Balance()));
-        TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.ZERO, "EUR", TransactionDirection.IN, "Test");
+        CreateTransactionDTO createTransactionDTO = new CreateTransactionDTO(1L, 1L, BigDecimal.ZERO, "EUR", "IN", "Test", List.of(new Balance()));
+        TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.ZERO, "EUR", "IN", "Test");
         var objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
 
         when(transactionService.create(transactionForm)).thenReturn(createTransactionDTO);
