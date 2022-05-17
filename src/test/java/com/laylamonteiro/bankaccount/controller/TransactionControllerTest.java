@@ -85,8 +85,7 @@ class TransactionControllerTest {
         when(transactionService.findAllByAccountId(1L))
                 .thenReturn(Collections.singletonList(transactionDTO));
 
-        mockMvc.perform(get("/transaction/1")).andDo(print());
-        mockMvc.perform(get("/transaction/1"))
+        mockMvc.perform(get("/transaction/1/transactions"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)));
     }

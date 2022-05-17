@@ -33,7 +33,7 @@ public class TransactionController {
         return service.findAll();
     }
 
-    @GetMapping(path = "/{accountId}")
+    @GetMapping(path = "/{accountId}/transactions")
     @ResponseStatus(HttpStatus.OK)
     public List<TransactionDTO> getAllTransactionsByAccountId(@PathVariable("accountId") final Long accountId) {
         log.info("Received request to list all transactions for accountId '{}'.", accountId);
