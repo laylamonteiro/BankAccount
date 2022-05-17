@@ -31,7 +31,9 @@ On sources root folder, open your terminal:
 Tests
 ---
 
-To generate test coverage reports, open your terminal:
+On sources root folder, open your terminal:
+
+  - Generate test coverage reports:
   
   ```console
   foo@bar:~$ ./gradlew clean build
