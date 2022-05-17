@@ -1,5 +1,8 @@
 package com.laylamonteiro.bankaccount.enums;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public enum TransactionDirection {
 
     IN,
