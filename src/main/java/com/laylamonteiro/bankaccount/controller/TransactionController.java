@@ -7,7 +7,6 @@ import com.laylamonteiro.bankaccount.dto.response.TransactionDTO;
 import com.laylamonteiro.bankaccount.messaging.MessagePublisher;
 import com.laylamonteiro.bankaccount.service.TransactionService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +41,7 @@ public class TransactionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateTransactionDTO createTransaction(@Valid @RequestBody final TransactionForm form) throws NotFoundException, JsonProcessingException {
+    public CreateTransactionDTO createTransaction(@Valid @RequestBody final TransactionForm form) throws JsonProcessingException {
         log.info("Received request to create transaction. Payload '{}'", form);
         CreateTransactionDTO transaction = service.create(form);
         publisher.publish(transaction);
