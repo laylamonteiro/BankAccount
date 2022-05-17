@@ -64,7 +64,7 @@ API Contract
   
   <b>country</b> <i>string</i>
   
-  <b>currencies</b> <i>array[string]</i>*
+  <b>currencies</b> <i>array[string]</i>
   <sub><sup>* Accepted values: EUR | SEK | GBP | USD</sup></sub>
   
   ```json
@@ -171,10 +171,10 @@ API Contract
   
   <b>amount</b> <i>string</i>
   
-  <b>currency</b> <i>string</i>* 
+  <b>currency</b> <i>string</i>
   <sub><sup>* Accepted values: EUR | SEK | GBP | USD</sup></sub>
     
-  <b>direction</b> <i>string</i>*
+  <b>direction</b> <i>string</i>
   <sub><sup>* Accepted values: IN | OUT</sup></sub>
     
   <b>description</b> <i>string</i>
