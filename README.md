@@ -30,7 +30,7 @@ Technologies
     
 &nbsp;
 
-Start/Stop project
+Build & Run
 ---
 On sources root folder, open your terminal:
 
