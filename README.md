@@ -103,13 +103,15 @@ API Contract
 
 <details>
   <summary>Body</summary>
-
-  <b>customerId</b> <i>number</i>
   
-  <b>country</b> <i>string</i>
+<br> 
   
-  <b>currencies</b> <i>array[string]</i>
-  <sub><sup>* Accepted values: EUR | SEK | GBP | USD</sup></sub>
+  > <b>customerId</b> <i>number</i>
+  > 
+  > <b>country</b> <i>string</i>
+  > 
+  > <b>currencies</b> <i>array[string]</i>
+  > <sub><sup>* Accepted values: EUR | SEK | GBP | USD</sup></sub>
   
   ```json
     {
@@ -122,7 +124,9 @@ API Contract
 
 <details>
   <summary>Response</summary>
-  
+    
+<br> 
+    
   ```json
 {
     "accountId": 1,
@@ -163,12 +167,16 @@ API Contract
 
 <details>
   <summary>Path</summary>
-
-  <b>accountId</b> <i>number</i>
+  
+<br> 
+  
+  > <b>accountId</b> <i>number</i>
 </details>
 
 <details>
   <summary>Response</summary>
+    
+<br> 
   
   ```json
 {
@@ -209,19 +217,21 @@ API Contract
   ```
 
 <details>
-  <summary>Body</summary>
-
-  <b>accountId</b> <i>number</i>
+  <summary>Body</summary>  
   
-  <b>amount</b> <i>string</i>
+<br> 
   
-  <b>currency</b> <i>string</i>
-  <sub><sup>* Accepted values: EUR | SEK | GBP | USD</sup></sub>
-    
-  <b>direction</b> <i>string</i>
-  <sub><sup>* Accepted values: IN | OUT</sup></sub>
-    
-  <b>description</b> <i>string</i>
+  > <b>accountId</b> <i>number</i>
+  > 
+  > <b>amount</b> <i>string</i>
+  > 
+  > <b>currency</b> <i>string</i>
+  > <sub><sup>* Accepted values: EUR | SEK | GBP | USD</sup></sub>
+  >   
+  > <b>direction</b> <i>string</i>
+  > <sub><sup>* Accepted values: IN | OUT</sup></sub>
+  >   
+  > <b>description</b> <i>string</i>
   
   ```json
     {
@@ -236,6 +246,8 @@ API Contract
 
 <details>
   <summary>Response</summary>
+    
+<br> 
   
   ```json
 {
@@ -277,13 +289,17 @@ API Contract
 
 <details>
   <summary>Path</summary>
-
-  <b>accountId</b> <i>number</i>
+  
+<br> 
+  
+  > <b>accountId</b> <i>number</i>
 
 </details>
 
 <details>
   <summary>Response</summary>
+    
+<br> 
   
   ```json
 [
