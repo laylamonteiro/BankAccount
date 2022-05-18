@@ -1,4 +1,4 @@
-# Tuum Bank Account
+# Bank Account
 
 ### Implementation of a small core banking solution
   
