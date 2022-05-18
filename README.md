@@ -42,6 +42,8 @@ On sources root folder, open your terminal:
   - Stop containers and remove volumes:
   
   ```console
+  foo@bar:~$ cd src/main/java/com/laylamonteiro/bankaccount/config/container
+  
   foo@bar:~$ docker-compose down -v
   ```
   
