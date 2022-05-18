@@ -5,6 +5,49 @@
   • Creates accounts to keep track of current accounts, balances, and transaction history
   
   • Capable of publishing messages into RabbitMQ for other consumers
+    
+&nbsp;
+
+Start/Stop project
+---
+On sources root folder, open your terminal:
+
+  - Start containers:
+  
+  ```console
+  foo@bar:~$ cd src/main/java/com/laylamonteiro/bankaccount/config/container
+  
+  foo@bar:~$ docker-compose up -d
+  ```
+
+  - Stop containers and remove volumes:
+  
+  ```console
+  foo@bar:~$ docker-compose down -v
+  ```
+  
+&nbsp;
+
+Connect to Postgres/RabbitMQ
+---
+
+  - Postgres
+  
+> Port: 5432
+> 
+> User: postgres
+> 
+> Password: postgres
+
+&nbsp;
+  
+  - RabbitMQ
+  
+> http://localhost:15672/#/exchanges
+> 
+> User: guest
+> 
+> Password: guest
   
 &nbsp;
 
