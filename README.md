@@ -358,7 +358,7 @@ RPS - Requests per second
 
 > <i> RPS = (Total RAM / Task memory usage) * (1 / Task duration) </i>
 > 
-> RPS = (8 / 2) * (1 / 0.6s)
+> RPS = (8 GB / 2 GB) * (1 / 0.6sec)
 > 
 > RPS = <b>6.66666</b> <i>requests per second</i>
 
