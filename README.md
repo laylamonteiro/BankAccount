@@ -38,7 +38,9 @@ On sources root folder, open your terminal:
   
   foo@bar:~$ docker-compose up -d
   ```
-
+  
+<br> 
+  
   - Stop containers and remove volumes:
   
   ```console
@@ -59,9 +61,9 @@ Connect to Postgres/RabbitMQ
 > User: postgres
 > 
 > Password: postgres
-
-&nbsp;
   
+<br> 
+    
   - RabbitMQ
   
 > http://localhost:15672/#/exchanges
