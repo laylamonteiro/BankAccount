@@ -24,6 +24,9 @@ Technologies
 • RabbitMQ
 
 • JUnit
+
+• Lombok
+
     
 &nbsp;
 
