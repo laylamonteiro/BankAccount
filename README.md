@@ -331,3 +331,25 @@ API Contract
 ```
   
 </details>
+
+&nbsp;
+
+RPS - Requests per second
+---
+
+> <i> RPS = (Total RAM / Task memory usage) * (1 / Task duration) </i>
+> 
+> RPS = (8 / 2) * (1 / 0.6s)
+> 
+> RPS = <b>6.66666</b> <i>requests per second</i>
+
+&nbsp;
+
+Scaling horizontally
+---
+
+- How many users will be sending requests?
+- When is the busiest season for the application?
+- Is the application hosted on the cloud?
+- What's the cost of scaling horizontally x vertically?
+- Is the application using cache?
