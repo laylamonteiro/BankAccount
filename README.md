@@ -5,6 +5,25 @@
   • Creates accounts to keep track of current accounts, balances, and transaction history
   
   • Capable of publishing messages into RabbitMQ for other consumers
+      
+&nbsp;
+
+Technologies
+---
+    
+• Java 14
+
+• SpringBoot
+
+• MyBatis
+
+• Gradle
+
+• Postgres
+
+• RabbitMQ
+
+• JUnit
     
 &nbsp;
 
