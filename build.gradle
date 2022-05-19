@@ -56,12 +56,6 @@ test {
 jacocoTestReport {
     dependsOn test
 
-    reports {
-        xml.enabled false
-        csv.enabled false
-        html.enabled true
-    }
-
     afterEvaluate {
         getClassDirectories().setFrom(files(classDirectories.files.collect {
             fileTree(dir: it,

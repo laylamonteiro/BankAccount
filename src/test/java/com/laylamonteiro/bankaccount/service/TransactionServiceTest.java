@@ -57,7 +57,6 @@ class TransactionServiceTest {
 
     @Test
     void findAllByAccountId_EmptyExistingTransactions() {
-        Transaction transaction = new Transaction();
         when(transactionDAO.findAllByAccountId(anyLong())).thenReturn(Collections.emptyList());
 
         List<TransactionDTO> transactionDTO = transactionService.findAllByAccountId(1L);
