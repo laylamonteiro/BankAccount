@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.laylamonteiro.bankaccount.enums.AvailableCurrency.findByValue;
+import static com.laylamonteiro.bankaccount.enums.AvailableCurrency.findByCurrencyValue;
 
 @Slf4j
 @Service
@@ -30,7 +30,7 @@ public class BalanceService {
     public List<Balance> createBalances(Long accountId, List<String> incomingCurrencies) {
         List<Balance> balances = new ArrayList<>();
         incomingCurrencies.forEach(currency -> {
-            Boolean currencyAllowed = findByValue(currency);
+            Boolean currencyAllowed = findByCurrencyValue(currency);
 
             if (currencyAllowed) {
                 Balance balance = new Balance();

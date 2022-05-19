@@ -17,7 +17,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static com.laylamonteiro.bankaccount.enums.AvailableCurrency.findByValue;
+import static com.laylamonteiro.bankaccount.enums.AvailableCurrency.findByCurrencyValue;
+import static com.laylamonteiro.bankaccount.enums.TransactionDirection.findByTransactionDirectionValue;
 
 @Slf4j
 @Service
@@ -63,11 +64,11 @@ public class TransactionService {
             balance = balances.get(0);
         }
 
-        if (form.getDirection().equals(TransactionDirection.IN)) {
+        if (form.getDirection().equals(TransactionDirection.IN.name())) {
             balance.setAvailableAmount(balance.getAvailableAmount().add(transaction.getAmount()));
             balanceService.updateBalance(balance);
         }
-        if (form.getDirection().equals(TransactionDirection.OUT)) {
+        if (form.getDirection().equals(TransactionDirection.OUT.name())) {
             balance.setAvailableAmount(balance.getAvailableAmount().subtract(transaction.getAmount()));
             balanceService.updateBalance(balance);
         }
@@ -77,9 +78,13 @@ public class TransactionService {
     }
 
     private void validateTransaction(Transaction transaction) {
-        Boolean currencyAllowed = findByValue(transaction.getCurrency().toString());
+        Boolean currencyAllowed = findByCurrencyValue(transaction.getCurrency());
+        Boolean validTransactionDirection = findByTransactionDirectionValue(transaction.getDirection());
+
         if (!currencyAllowed) {
             throw new IllegalArgumentException("Invalid currency.");
+        } else if (!validTransactionDirection) {
+            throw new IllegalArgumentException("Invalid transaction direction.");
         } else if (insufficientFunds(transaction)) {
             throw new IllegalArgumentException("Insufficient funds.");
         } else if (transaction.getAmount().compareTo(BigDecimal.ZERO) < 0) {
@@ -88,7 +93,7 @@ public class TransactionService {
     }
 
     private Boolean insufficientFunds(Transaction transaction) {
-        if (transaction.getDirection().equals(TransactionDirection.OUT)) {
+        if (transaction.getDirection().equals(TransactionDirection.OUT.name())) {
             BigDecimal availableAmount = BigDecimal.ZERO;
             Balance balanceByCurrency = getBalanceByAccountIdAndCurrency(transaction);
 

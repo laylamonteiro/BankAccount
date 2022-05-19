@@ -6,7 +6,6 @@ import com.laylamonteiro.bankaccount.dto.response.CreateTransactionDTO;
 import com.laylamonteiro.bankaccount.dto.response.TransactionDTO;
 import com.laylamonteiro.bankaccount.entity.Balance;
 import com.laylamonteiro.bankaccount.entity.Transaction;
-import com.laylamonteiro.bankaccount.enums.TransactionDirection;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -67,7 +66,7 @@ class TransactionServiceTest {
 
     @Test
     void createIncomingTransaction() {
-        TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.ZERO, "EUR", TransactionDirection.IN, "Test");
+        TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.ZERO, "EUR", "IN", "Test");
         Balance balance = new Balance(1L, BigDecimal.ZERO, "EUR");
 
         doNothing().when(transactionDAO).createTransaction(any(Transaction.class));
@@ -81,7 +80,7 @@ class TransactionServiceTest {
 
     @Test
     void createOutgoingTransaction() {
-        TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.ZERO, "EUR", TransactionDirection.OUT, "Test");
+        TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.ZERO, "EUR", "OUT", "Test");
         Balance balance = new Balance(1L, BigDecimal.ZERO, "EUR");
 
         doNothing().when(transactionDAO).createTransaction(any(Transaction.class));
@@ -97,7 +96,7 @@ class TransactionServiceTest {
 
     @Test
     void createOutgoingTransaction_NoPreviousTransactions() {
-        TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.ZERO, "EUR", TransactionDirection.OUT, "Test");
+        TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.ZERO, "EUR", "OUT", "Test");
         Balance balance = new Balance(1L, BigDecimal.ZERO, "USD");
 
         doNothing().when(transactionDAO).createTransaction(any(Transaction.class));
@@ -113,7 +112,7 @@ class TransactionServiceTest {
 
     @Test
     void transactionWithInsufficientFunds() {
-        TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.TEN, "EUR", TransactionDirection.OUT, "Test");
+        TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.TEN, "EUR", "OUT", "Test");
         Balance balance = new Balance(1L, BigDecimal.ZERO, "EUR");
 
         doNothing().when(transactionDAO).createTransaction(any(Transaction.class));
@@ -129,7 +128,7 @@ class TransactionServiceTest {
 
     @Test
     void transactionWithInvalidCurrency() {
-        TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.TEN, "BRL", TransactionDirection.OUT, "Test");
+        TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.TEN, "BRL", "OUT", "Test");
         Balance balance = new Balance(1L, BigDecimal.ZERO, "EUR");
 
         doNothing().when(transactionDAO).createTransaction(any(Transaction.class));
@@ -144,8 +143,24 @@ class TransactionServiceTest {
     }
 
     @Test
+    void transactionWithInvalidDirection() {
+        TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.TEN, "EUR", "Test", "Test");
+        Balance balance = new Balance(1L, BigDecimal.ZERO, "EUR");
+
+        doNothing().when(transactionDAO).createTransaction(any(Transaction.class));
+        when(balanceService.createBalances(anyLong(), anyList())).thenReturn(List.of(balance));
+        doNothing().when(balanceService).updateBalance(any(Balance.class));
+        when(balanceService.findBalancesByAccountId(anyLong())).thenReturn(List.of(balance));
+
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> transactionService.create(transactionForm))
+                .withMessageContaining("Invalid transaction direction.");
+        verify(transactionDAO, times(0)).createTransaction(any(Transaction.class));
+    }
+
+    @Test
     void transactionWithNegativeTransactionAmount() {
-        TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.valueOf(-10), "EUR", TransactionDirection.OUT, "Test");
+        TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.valueOf(-10), "EUR", "OUT", "Test");
         Balance balance = new Balance(1L, BigDecimal.ZERO, "EUR");
 
         doNothing().when(transactionDAO).createTransaction(any(Transaction.class));
