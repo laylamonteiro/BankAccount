@@ -393,4 +393,4 @@ Scaling horizontally
 - When is the busiest season for the application?
 - Is the application hosted on the cloud?
 - What's the cost of scaling horizontally x vertically?
-- Is the application using cache?
+- Is the application using internal cache?
