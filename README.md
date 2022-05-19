@@ -11,7 +11,7 @@
 Technologies
 ---
     
-• Java
+• Java 14
 
 • SpringBoot
 
