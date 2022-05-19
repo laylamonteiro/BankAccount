@@ -32,6 +32,9 @@ Technologies
 
 Build & Run
 ---
+
+If needed, install Lombok -> https://projectlombok.org/setup/overview
+
 On sources root folder, open your terminal:
 
   - Start containers:
