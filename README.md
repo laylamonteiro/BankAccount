@@ -356,6 +356,14 @@ API Contract
 
 &nbsp;
 
+Considerations about the project
+---
+- Numbers were used for IDs, so they would be auto-generated and incremented
+- Lombok was used to avoid boiler-plate code
+
+
+&nbsp;
+
 RPS - Requests per second
 ---
 
