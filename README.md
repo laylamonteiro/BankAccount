@@ -36,8 +36,10 @@ On sources root folder, open your terminal:
 
   - Start containers:
   
-  ```console
+  ```console 
   foo@bar:~$ cd src/main/java/com/laylamonteiro/bankaccount/config/container
+  
+  foo@bar:~$ docker image build . -t preloaded_db:new
   
   foo@bar:~$ docker-compose up -d
   ```
