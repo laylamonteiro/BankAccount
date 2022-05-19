@@ -33,7 +33,7 @@ Technologies
 Build & Run
 ---
 
-If needed, install Lombok -> https://projectlombok.org/setup/overview
+Run project on your IDE.
 
 On sources root folder, open your terminal:
 
@@ -44,6 +44,8 @@ On sources root folder, open your terminal:
   
   foo@bar:~$ docker-compose up -d
   ```
+  
+  If needed, install Lombok -> https://projectlombok.org/setup/overview
   
 <br> 
   
