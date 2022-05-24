@@ -7,6 +7,7 @@ import com.laylamonteiro.bankaccount.dto.response.TransactionDTO;
 import com.laylamonteiro.bankaccount.entity.Balance;
 import com.laylamonteiro.bankaccount.entity.Transaction;
 import com.laylamonteiro.bankaccount.enums.TransactionDirection;
+import com.laylamonteiro.bankaccount.exception.UnprocessableEntityException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,8 @@ public class TransactionService {
     }
 
     public CreateTransactionDTO create(TransactionForm form) {
+
+
         Transaction transaction = new Transaction();
         transaction.setAccountId(form.getAccountId());
         transaction.setAmount(form.getAmount());
@@ -82,13 +85,13 @@ public class TransactionService {
         Boolean validTransactionDirection = findByTransactionDirectionValue(transaction.getDirection());
 
         if (!currencyAllowed) {
-            throw new IllegalArgumentException("Invalid currency.");
+            throw new UnprocessableEntityException("Invalid currency.");
         } else if (!validTransactionDirection) {
-            throw new IllegalArgumentException("Invalid transaction direction.");
+            throw new UnprocessableEntityException("Invalid transaction direction.");
         } else if (insufficientFunds(transaction)) {
-            throw new IllegalArgumentException("Insufficient funds.");
+            throw new UnprocessableEntityException("Insufficient funds.");
         } else if (transaction.getAmount().compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Invalid amount.");
+            throw new UnprocessableEntityException("Invalid amount.");
         }
     }
 

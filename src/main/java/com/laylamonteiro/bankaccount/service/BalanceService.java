@@ -2,6 +2,7 @@ package com.laylamonteiro.bankaccount.service;
 
 import com.laylamonteiro.bankaccount.dao.BalanceDAO;
 import com.laylamonteiro.bankaccount.entity.Balance;
+import com.laylamonteiro.bankaccount.exception.UnprocessableEntityException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,7 +52,7 @@ public class BalanceService {
             Boolean currencyAllowed = findByCurrencyValue(currency);
 
             if (!currencyAllowed) {
-                throw new IllegalArgumentException("Invalid currency.");
+                throw new UnprocessableEntityException("Invalid currency.");
             }
         });
     }
