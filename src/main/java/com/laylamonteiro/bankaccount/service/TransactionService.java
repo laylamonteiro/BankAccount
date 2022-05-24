@@ -2,6 +2,7 @@ package com.laylamonteiro.bankaccount.service;
 
 import com.laylamonteiro.bankaccount.dao.TransactionDAO;
 import com.laylamonteiro.bankaccount.dto.request.TransactionForm;
+import com.laylamonteiro.bankaccount.dto.response.AccountDTO;
 import com.laylamonteiro.bankaccount.dto.response.CreateTransactionDTO;
 import com.laylamonteiro.bankaccount.dto.response.TransactionDTO;
 import com.laylamonteiro.bankaccount.entity.Balance;
@@ -31,6 +32,10 @@ public class TransactionService {
     @Autowired
     private BalanceService balanceService;
 
+    @Autowired
+    private AccountService accountService;
+
+
 
     public List<TransactionDTO> findAll() {
         List<Transaction> transactions = transactionDAO.findAll();
@@ -50,10 +55,10 @@ public class TransactionService {
     }
 
     public CreateTransactionDTO create(TransactionForm form) {
-
+        AccountDTO accountDTO = accountService.findByAccountId(form.getAccountId());
 
         Transaction transaction = new Transaction();
-        transaction.setAccountId(form.getAccountId());
+        transaction.setAccountId(accountDTO.getAccountId());
         transaction.setAmount(form.getAmount());
         transaction.setCurrency(form.getCurrency());
         transaction.setDirection(form.getDirection());
