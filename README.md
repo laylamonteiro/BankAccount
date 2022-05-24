@@ -40,7 +40,7 @@ On sources root folder, open your terminal:
   - Start containers:
   
   ```console 
-  foo@bar:~$ cd src/main/java/com/laylamonteiro/bankaccount/config/container
+  foo@bar:~$ cd src/main/resources/container
   
   foo@bar:~$ docker-compose up -d
   ```
@@ -52,7 +52,7 @@ On sources root folder, open your terminal:
   - Stop containers and remove volumes:
   
   ```console
-  foo@bar:~$ cd src/main/java/com/laylamonteiro/bankaccount/config/container
+  foo@bar:~$ cd src/main/resources/container
   
   foo@bar:~$ docker-compose down -v
   ```
