@@ -2,10 +2,12 @@ package com.laylamonteiro.bankaccount.service;
 
 import com.laylamonteiro.bankaccount.dao.TransactionDAO;
 import com.laylamonteiro.bankaccount.dto.request.TransactionForm;
+import com.laylamonteiro.bankaccount.dto.response.AccountDTO;
 import com.laylamonteiro.bankaccount.dto.response.CreateTransactionDTO;
 import com.laylamonteiro.bankaccount.dto.response.TransactionDTO;
 import com.laylamonteiro.bankaccount.entity.Balance;
 import com.laylamonteiro.bankaccount.entity.Transaction;
+import com.laylamonteiro.bankaccount.exception.UnprocessableEntityException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -32,6 +34,9 @@ class TransactionServiceTest {
 
     @Mock
     private BalanceService balanceService;
+
+    @Mock
+    private AccountService accountService;
 
     @InjectMocks
     private TransactionService transactionService;
@@ -67,7 +72,10 @@ class TransactionServiceTest {
     void createIncomingTransaction() {
         TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.ZERO, "EUR", "IN", "Test");
         Balance balance = new Balance(1L, BigDecimal.ZERO, "EUR");
+        AccountDTO accountDTO = mock(AccountDTO.class);
 
+        when(accountService.findByAccountId(anyLong())).thenReturn(accountDTO);
+        when(accountDTO.getAccountId()).thenReturn(1L);
         doNothing().when(transactionDAO).createTransaction(any(Transaction.class));
         when(balanceService.createBalances(anyLong(), anyList())).thenReturn(List.of(balance));
         doNothing().when(balanceService).updateBalance(any(Balance.class));
@@ -81,7 +89,10 @@ class TransactionServiceTest {
     void createOutgoingTransaction() {
         TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.ZERO, "EUR", "OUT", "Test");
         Balance balance = new Balance(1L, BigDecimal.ZERO, "EUR");
+        AccountDTO accountDTO = mock(AccountDTO.class);
 
+        when(accountService.findByAccountId(anyLong())).thenReturn(accountDTO);
+        when(accountDTO.getAccountId()).thenReturn(1L);
         doNothing().when(transactionDAO).createTransaction(any(Transaction.class));
         when(balanceService.createBalances(anyLong(), anyList())).thenReturn(List.of(balance));
         doNothing().when(balanceService).updateBalance(any(Balance.class));
@@ -97,7 +108,10 @@ class TransactionServiceTest {
     void createOutgoingTransaction_NoPreviousTransactions() {
         TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.ZERO, "EUR", "OUT", "Test");
         Balance balance = new Balance(1L, BigDecimal.ZERO, "USD");
+        AccountDTO accountDTO = mock(AccountDTO.class);
 
+        when(accountService.findByAccountId(anyLong())).thenReturn(accountDTO);
+        when(accountDTO.getAccountId()).thenReturn(1L);
         doNothing().when(transactionDAO).createTransaction(any(Transaction.class));
         when(balanceService.createBalances(anyLong(), anyList())).thenReturn(List.of(balance));
         doNothing().when(balanceService).updateBalance(any(Balance.class));
@@ -113,13 +127,16 @@ class TransactionServiceTest {
     void transactionWithInsufficientFunds() {
         TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.TEN, "EUR", "OUT", "Test");
         Balance balance = new Balance(1L, BigDecimal.ZERO, "EUR");
+        AccountDTO accountDTO = mock(AccountDTO.class);
 
+        when(accountService.findByAccountId(anyLong())).thenReturn(accountDTO);
+        when(accountDTO.getAccountId()).thenReturn(1L);
         doNothing().when(transactionDAO).createTransaction(any(Transaction.class));
         when(balanceService.createBalances(anyLong(), anyList())).thenReturn(List.of(balance));
         doNothing().when(balanceService).updateBalance(any(Balance.class));
         when(balanceService.findBalancesByAccountId(anyLong())).thenReturn(List.of(balance));
 
-        assertThatExceptionOfType(IllegalArgumentException.class)
+        assertThatExceptionOfType(UnprocessableEntityException.class)
                 .isThrownBy(() -> transactionService.create(transactionForm))
                 .withMessageContaining("Insufficient funds.");
         verify(transactionDAO, times(0)).createTransaction(any(Transaction.class));
@@ -129,13 +146,16 @@ class TransactionServiceTest {
     void transactionWithInvalidCurrency() {
         TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.TEN, "BRL", "OUT", "Test");
         Balance balance = new Balance(1L, BigDecimal.ZERO, "EUR");
+        AccountDTO accountDTO = mock(AccountDTO.class);
 
+        when(accountService.findByAccountId(anyLong())).thenReturn(accountDTO);
+        when(accountDTO.getAccountId()).thenReturn(1L);
         doNothing().when(transactionDAO).createTransaction(any(Transaction.class));
         when(balanceService.createBalances(anyLong(), anyList())).thenReturn(List.of(balance));
         doNothing().when(balanceService).updateBalance(any(Balance.class));
         when(balanceService.findBalancesByAccountId(anyLong())).thenReturn(List.of(balance));
 
-        assertThatExceptionOfType(IllegalArgumentException.class)
+        assertThatExceptionOfType(UnprocessableEntityException.class)
                 .isThrownBy(() -> transactionService.create(transactionForm))
                 .withMessageContaining("Invalid currency.");
         verify(transactionDAO, times(0)).createTransaction(any(Transaction.class));
@@ -145,13 +165,16 @@ class TransactionServiceTest {
     void transactionWithInvalidDirection() {
         TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.TEN, "EUR", "Test", "Test");
         Balance balance = new Balance(1L, BigDecimal.ZERO, "EUR");
+        AccountDTO accountDTO = mock(AccountDTO.class);
 
+        when(accountService.findByAccountId(anyLong())).thenReturn(accountDTO);
+        when(accountDTO.getAccountId()).thenReturn(1L);
         doNothing().when(transactionDAO).createTransaction(any(Transaction.class));
         when(balanceService.createBalances(anyLong(), anyList())).thenReturn(List.of(balance));
         doNothing().when(balanceService).updateBalance(any(Balance.class));
         when(balanceService.findBalancesByAccountId(anyLong())).thenReturn(List.of(balance));
 
-        assertThatExceptionOfType(IllegalArgumentException.class)
+        assertThatExceptionOfType(UnprocessableEntityException.class)
                 .isThrownBy(() -> transactionService.create(transactionForm))
                 .withMessageContaining("Invalid transaction direction.");
         verify(transactionDAO, times(0)).createTransaction(any(Transaction.class));
@@ -161,13 +184,16 @@ class TransactionServiceTest {
     void transactionWithNegativeTransactionAmount() {
         TransactionForm transactionForm = new TransactionForm(1L, BigDecimal.valueOf(-10), "EUR", "OUT", "Test");
         Balance balance = new Balance(1L, BigDecimal.ZERO, "EUR");
+        AccountDTO accountDTO = mock(AccountDTO.class);
 
+        when(accountService.findByAccountId(anyLong())).thenReturn(accountDTO);
+        when(accountDTO.getAccountId()).thenReturn(1L);
         doNothing().when(transactionDAO).createTransaction(any(Transaction.class));
         when(balanceService.createBalances(anyLong(), anyList())).thenReturn(List.of(balance));
         doNothing().when(balanceService).updateBalance(any(Balance.class));
         when(balanceService.findBalancesByAccountId(anyLong())).thenReturn(List.of(balance));
 
-        assertThatExceptionOfType(IllegalArgumentException.class)
+        assertThatExceptionOfType(UnprocessableEntityException.class)
                 .isThrownBy(() -> transactionService.create(transactionForm))
                 .withMessageContaining("Invalid amount.");
         verify(transactionDAO, times(0)).createTransaction(any(Transaction.class));

@@ -5,7 +5,7 @@ import com.laylamonteiro.bankaccount.dto.request.AccountForm;
 import com.laylamonteiro.bankaccount.dto.response.AccountDTO;
 import com.laylamonteiro.bankaccount.entity.Account;
 import com.laylamonteiro.bankaccount.entity.Balance;
-import org.apache.ibatis.javassist.NotFoundException;
+import com.laylamonteiro.bankaccount.exception.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -58,7 +58,7 @@ class AccountServiceTest {
     void findByAccountId_AccountNotFound() {
         when(accountDAO.findByAccountId(anyLong())).thenReturn(null);
 
-        assertThatExceptionOfType(NotFoundException.class)
+        assertThatExceptionOfType(EntityNotFoundException.class)
                 .isThrownBy(() -> accountService.findByAccountId(1L));
     }
 
