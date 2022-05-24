@@ -2,6 +2,7 @@ package com.laylamonteiro.bankaccount.service;
 
 import com.laylamonteiro.bankaccount.dao.BalanceDAO;
 import com.laylamonteiro.bankaccount.entity.Balance;
+import com.laylamonteiro.bankaccount.exception.UnprocessableEntityException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -57,8 +58,8 @@ class BalanceServiceTest {
 
     @Test
     void createBalances_CurrencyNotAllowed() {
-        assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> balanceService.createBalances(1L, List.of("XXX", "YYY")))
+        assertThatExceptionOfType(UnprocessableEntityException.class)
+                .isThrownBy(() -> balanceService.validateIfIncomingCurrenciesAreAllowed(List.of("XXX", "YYY")))
                 .withMessageContaining("Invalid currency.");
 
         verify(balanceDAO, times(0)).createBalance(any(Balance.class));
