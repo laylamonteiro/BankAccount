@@ -45,6 +45,8 @@ public class AccountService {
     }
 
     public AccountDTO create(AccountForm form) {
+        balanceService.validateIfIncomingCurrenciesAreAllowed(form.getCurrencies());
+
         Account account = new Account();
         account.setCustomerId(form.getCustomerId());
         account.setCountry(form.getCountry());
