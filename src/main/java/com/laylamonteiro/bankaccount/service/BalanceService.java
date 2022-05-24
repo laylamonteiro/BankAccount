@@ -2,6 +2,7 @@ package com.laylamonteiro.bankaccount.service;
 
 import com.laylamonteiro.bankaccount.dao.BalanceDAO;
 import com.laylamonteiro.bankaccount.entity.Balance;
+import com.laylamonteiro.bankaccount.exception.UnprocessableEntityException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,18 +31,13 @@ public class BalanceService {
     public List<Balance> createBalances(Long accountId, List<String> incomingCurrencies) {
         List<Balance> balances = new ArrayList<>();
         incomingCurrencies.forEach(currency -> {
-            Boolean currencyAllowed = findByCurrencyValue(currency);
 
-            if (currencyAllowed) {
-                Balance balance = new Balance();
-                balance.setAccountId(accountId);
-                balance.setAvailableAmount(BigDecimal.valueOf(0));
-                balance.setCurrency(currency);
-                balanceDAO.createBalance(balance);
-                balances.add(balance);
-            } else {
-                throw new IllegalArgumentException("Invalid currency.");
-            }
+            Balance balance = new Balance();
+            balance.setAvailableAmount(BigDecimal.valueOf(0));
+            balance.setCurrency(currency);
+            balance.setAccountId(accountId);
+            balanceDAO.createBalance(balance);
+            balances.add(balance);
         });
 
         return balances;
@@ -49,5 +45,15 @@ public class BalanceService {
 
     public void updateBalance(Balance balance) {
         balanceDAO.updateBalance(balance);
+    }
+
+    public void validateIfIncomingCurrenciesAreAllowed(List<String> incomingCurrencies) {
+        incomingCurrencies.forEach(currency -> {
+            Boolean currencyAllowed = findByCurrencyValue(currency);
+
+            if (!currencyAllowed) {
+                throw new UnprocessableEntityException("Invalid currency.");
+            }
+        });
     }
 }

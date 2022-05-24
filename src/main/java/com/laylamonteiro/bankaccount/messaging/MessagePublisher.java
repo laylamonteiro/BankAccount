@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.laylamonteiro.bankaccount.dto.response.AccountDTO;
 import com.laylamonteiro.bankaccount.dto.response.CreateTransactionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.messaging.Source;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
@@ -15,19 +15,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-@EnableBinding(Source.class)
 public class MessagePublisher {
 
+    private final MessageChannel output;
+
     @Autowired
-    private Source source;
+    public MessagePublisher(@Qualifier("nullChannel") MessageChannel output) {
+        this.output = output;
+    }
 
     public void publish(AccountDTO createdAccount) throws JsonProcessingException {
-        boolean sent = source.output().send(MessageBuilder.withPayload(createdAccount).build());
+        boolean sent = output.send(MessageBuilder.withPayload(createdAccount).build());
         validate(sent, createdAccount, "New account");
     }
 
     public void publish(CreateTransactionDTO createdTransaction) throws JsonProcessingException {
-        boolean sent = source.output().send(MessageBuilder.withPayload(createdTransaction).build());
+        boolean sent = output.send(MessageBuilder.withPayload(createdTransaction).build());
         validate(sent, createdTransaction, "New transaction");
     }
 

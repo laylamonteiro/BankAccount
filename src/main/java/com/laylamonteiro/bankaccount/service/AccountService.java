@@ -4,8 +4,8 @@ import com.laylamonteiro.bankaccount.dao.AccountDAO;
 import com.laylamonteiro.bankaccount.dto.request.AccountForm;
 import com.laylamonteiro.bankaccount.dto.response.AccountDTO;
 import com.laylamonteiro.bankaccount.entity.Account;
+import com.laylamonteiro.bankaccount.exception.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,13 +31,13 @@ public class AccountService {
         return toDTO(accounts);
     }
 
-    public AccountDTO findByAccountId(Long id) throws NotFoundException {
+    public AccountDTO findByAccountId(Long id) {
         Account existingAccount = accountDAO.findByAccountId(id);
 
         if (Objects.isNull(existingAccount)) {
             String errorMessage = String.format("Account %s not found.", id);
             log.error(errorMessage);
-            throw new NotFoundException(errorMessage);
+            throw new EntityNotFoundException(errorMessage);
         }
 
         log.debug("Found account '{}' .", existingAccount.getAccountId());
@@ -45,6 +45,8 @@ public class AccountService {
     }
 
     public AccountDTO create(AccountForm form) {
+        balanceService.validateIfIncomingCurrenciesAreAllowed(form.getCurrencies());
+
         Account account = new Account();
         account.setCustomerId(form.getCustomerId());
         account.setCountry(form.getCountry());

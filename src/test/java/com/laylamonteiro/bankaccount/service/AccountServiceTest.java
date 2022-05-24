@@ -46,7 +46,7 @@ class AccountServiceTest {
     }
 
     @Test
-    void findByAccountId() throws NotFoundException {
+    void findByAccountId() {
         Account account = new Account();
         when(accountDAO.findByAccountId(anyLong())).thenReturn(account);
 
